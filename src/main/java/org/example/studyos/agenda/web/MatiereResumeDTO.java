@@ -7,7 +7,7 @@ import java.util.UUID;
 /** Vue compacte d'une matiere pour l'embarquer dans une seance. */
 public record MatiereResumeDTO(UUID id, String libelle, String couleur, boolean aQualifier) {
 
-    static MatiereResumeDTO de(Matiere matiere) {
+    public static MatiereResumeDTO de(Matiere matiere) {
         if (matiere == null) {
             return null;
         }

@@ -28,4 +28,7 @@ public interface SeanceRepository extends JpaRepository<Seance, UUID> {
 
     /** Detection des annulations (brief §5.9) : seances futures non annulees. */
     List<Seance> findByDebutAfterAndAnnuleeFalse(Instant maintenant);
+
+    /** Fusion de matieres : reassigner les seances de la matiere absorbee. */
+    List<Seance> findByMatiereId(UUID matiereId);
 }

@@ -1,0 +1,47 @@
+package org.example.studyos.agenda.web;
+
+import jakarta.validation.Valid;
+import org.example.studyos.agenda.service.ServiceQualification;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.UUID;
+
+@RestController
+@RequestMapping("/api/matieres")
+public class ControleurMatiere {
+
+    private final ServiceQualification qualification;
+
+    public ControleurMatiere(ServiceQualification qualification) {
+        this.qualification = qualification;
+    }
+
+    @GetMapping
+    public List<MatiereDTO> lister() {
+        return qualification.lister().stream().map(MatiereDTO::de).toList();
+    }
+
+    @GetMapping("/a-qualifier")
+    public List<MatiereDTO> aQualifier() {
+        return qualification.listerAQualifier().stream().map(MatiereDTO::de).toList();
+    }
+
+    @PutMapping("/{id}")
+    public MatiereDTO mettreAJour(@PathVariable UUID id, @Valid @RequestBody MajMatiereDTO corps) {
+        return MatiereDTO.de(qualification.mettreAJour(id, corps.libelle(), corps.code(),
+                corps.semestre(), corps.coefficient(), corps.couleur(), corps.dateExamen()));
+    }
+
+    /** Fusion : garde {id}, absorbe {autreId} (alias, seances, echeances reassignes). */
+    @PostMapping("/{id}/fusionner/{autreId}")
+    public MatiereDTO fusionner(@PathVariable UUID id, @PathVariable UUID autreId) {
+        return MatiereDTO.de(qualification.fusionner(id, autreId));
+    }
+}
