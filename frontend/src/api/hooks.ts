@@ -43,6 +43,18 @@ export function useFusionner() {
   });
 }
 
+export function useSupprimerMatiere() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (id: string) => api.supprimer<void>(`/api/matieres/${id}`),
+    onSuccess: () => {
+      invaliderMatieres(qc);
+      qc.invalidateQueries({ queryKey: ['seances'] });
+      qc.invalidateQueries({ queryKey: ['echeances'] });
+    },
+  });
+}
+
 // --- Seances ---
 
 export function useSeances(du: string, au: string) {
@@ -55,7 +67,7 @@ export function useSeances(du: string, au: string) {
 export function useProchaineSeance() {
   return useQuery({
     queryKey: ['seances', 'prochaine'],
-    queryFn: () => api.get<Seance | undefined>('/api/seances/prochaine'),
+    queryFn: () => api.get<Seance | null>('/api/seances/prochaine'),
   });
 }
 

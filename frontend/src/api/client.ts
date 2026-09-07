@@ -13,8 +13,9 @@ async function requete<T>(chemin: string, options?: RequestInit): Promise<T> {
     throw new ErreurApi(reponse.status, `${reponse.status} sur ${chemin}`);
   }
   // 204 No Content (ex : /seances/prochaine quand aucune) -> pas de corps.
+  // On renvoie null (et pas undefined) : TanStack Query interdit undefined en donnee.
   if (reponse.status === 204) {
-    return undefined as T;
+    return null as T;
   }
   return reponse.json() as Promise<T>;
 }
@@ -42,6 +43,8 @@ export const api = {
       headers: corps === undefined ? undefined : { 'Content-Type': 'application/json' },
       body: corps === undefined ? undefined : JSON.stringify(corps),
     }),
+
+  supprimer: <T>(chemin: string) => requete<T>(chemin, { method: 'DELETE' }),
 
   postFichier: <T>(chemin: string, champ: string, fichier: File) => {
     const form = new FormData();

@@ -80,6 +80,19 @@ public class ServiceQualification {
         return garder;
     }
 
+    /**
+     * Suppression manuelle d'une matiere et de tout ce qui en depend (seances,
+     * echeances, alias par cascade). Geste volontaire de nettoyage, distinct de
+     * l'annulation a l'import (qui, elle, ne supprime jamais physiquement).
+     */
+    @Transactional
+    public void supprimer(UUID id) {
+        Matiere matiere = charger(id);
+        seances.deleteAll(seances.findByMatiereId(id));
+        echeances.deleteAll(echeances.findByMatiereId(id));
+        matieres.delete(matiere); // les alias partent par cascade (FK on delete cascade)
+    }
+
     private Matiere charger(UUID id) {
         return matieres.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,

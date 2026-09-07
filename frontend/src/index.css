@@ -82,6 +82,11 @@ button.primaire {
   border-color: var(--accent);
 }
 
+button.danger {
+  color: #c92a2a;
+  border-color: #f0c2c2;
+}
+
 button:disabled {
   opacity: 0.5;
   cursor: not-allowed;

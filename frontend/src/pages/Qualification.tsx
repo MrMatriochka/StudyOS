@@ -5,6 +5,7 @@ import {
   useMatieres,
   useMatieresAQualifier,
   useRenommerMatiere,
+  useSupprimerMatiere,
 } from '../api/hooks';
 import type { Matiere } from '../api/types';
 
@@ -66,6 +67,7 @@ export function Qualification() {
 function LigneMatiere({ matiere, candidates }: { matiere: Matiere; candidates: Matiere[] }) {
   const renommer = useRenommerMatiere();
   const fusionner = useFusionner();
+  const supprimer = useSupprimerMatiere();
   const [libelle, setLibelle] = useState(matiere.libelle);
   const [cibleId, setCibleId] = useState('');
 
@@ -97,6 +99,22 @@ function LigneMatiere({ matiere, candidates }: { matiere: Matiere; candidates: M
         onClick={() => fusionner.mutate({ garderId: cibleId, absorbeeId: matiere.id })}
       >
         Fusionner
+      </button>
+
+      <button
+        className="danger"
+        disabled={supprimer.isPending}
+        onClick={() => {
+          if (
+            window.confirm(
+              `Supprimer « ${matiere.libelle} » et ses séances/échéances ? Action définitive.`,
+            )
+          ) {
+            supprimer.mutate(matiere.id);
+          }
+        }}
+      >
+        Supprimer
       </button>
     </div>
   );
