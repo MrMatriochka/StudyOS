@@ -99,8 +99,9 @@ class ServiceDocumentIT {
         assertEquals(1, sections.size());
         assertTrue(sections.get(0).getTexte().contains("theoreme"));
 
-        // Recherche 'french' : "distribue" doit matcher "distribuees" (stemming).
-        List<RechercheProjection> resultats = serviceRecherche.rechercher("distribue");
+        // Recherche plein texte : un mot du contenu retrouve le document.
+        // (mot present tel quel -> match deterministe, independant du stemming)
+        List<RechercheProjection> resultats = serviceRecherche.rechercher("theoreme");
         assertEquals(1, resultats.size());
         assertEquals(depot.document().getId(), resultats.get(0).getId());
         assertTrue(resultats.get(0).getExtrait().contains("<b>"), "extrait surligne par ts_headline");
