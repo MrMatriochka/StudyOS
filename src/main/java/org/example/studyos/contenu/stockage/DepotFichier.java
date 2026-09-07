@@ -40,6 +40,14 @@ public class DepotFichier {
         return Path.of(chemin);
     }
 
+    public byte[] lire(String chemin) {
+        try {
+            return Files.readAllBytes(Path.of(chemin));
+        } catch (IOException e) {
+            throw new UncheckedIOException("Lecture du document impossible : " + chemin, e);
+        }
+    }
+
     public void supprimer(String chemin) {
         try {
             Files.deleteIfExists(Path.of(chemin));

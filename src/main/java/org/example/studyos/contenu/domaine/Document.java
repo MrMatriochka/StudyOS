@@ -80,17 +80,21 @@ public class Document {
     }
 
     public Document(Matiere matiere, String titre, String nomOriginal, TypeDocument type,
-                    String extension, String chemin, String hash, long tailleOctets) {
+                    String extension, String hash, long tailleOctets) {
         this.id = UUID.randomUUID();
         this.matiere = matiere;
         this.titre = titre;
         this.nomOriginal = nomOriginal;
         this.type = type;
         this.extension = extension;
-        this.chemin = chemin;
         this.hash = hash;
         this.tailleOctets = tailleOctets;
         this.ajouteLe = Instant.now();
+    }
+
+    /** Fixe le chemin de stockage (derive de l'id) apres ecriture du fichier. */
+    public void definirChemin(String chemin) {
+        this.chemin = chemin;
     }
 
     public void renseignerExtraction(boolean ok, String texte, Integer nbPages, String erreur) {
