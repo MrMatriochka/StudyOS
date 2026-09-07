@@ -1,6 +1,11 @@
 // Base de l'API. Le front (5173) appelle le back (8080) : le CORS du back l'autorise.
 const BASE = import.meta.env.VITE_API_BASE ?? 'http://localhost:8080';
 
+/** URL directe du fichier d'un document (ouverture dans un nouvel onglet). */
+export function urlFichierDocument(id: string): string {
+  return `${BASE}/api/documents/${id}/fichier`;
+}
+
 export class ErreurApi extends Error {
   constructor(public statut: number, message: string) {
     super(message);
@@ -51,4 +56,7 @@ export const api = {
     form.append(champ, fichier);
     return requete<T>(chemin, { method: 'POST', body: form });
   },
+
+  postForm: <T>(chemin: string, form: FormData) =>
+    requete<T>(chemin, { method: 'POST', body: form }),
 };

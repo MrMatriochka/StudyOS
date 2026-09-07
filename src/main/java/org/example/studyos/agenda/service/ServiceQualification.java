@@ -40,6 +40,11 @@ public class ServiceQualification {
     }
 
     @Transactional(readOnly = true)
+    public Matiere parId(UUID id) {
+        return charger(id);
+    }
+
+    @Transactional(readOnly = true)
     public List<Matiere> listerAQualifier() {
         return matieres.findByEnAttenteQualificationTrueOrderByLibelleAsc();
     }

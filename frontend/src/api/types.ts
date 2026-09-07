@@ -56,3 +56,41 @@ export interface MajMatiere {
   couleur?: string | null;
   dateExamen?: string | null;
 }
+
+export interface Document {
+  id: string;
+  titre: string;
+  nomOriginal: string;
+  type: string;
+  extension: string;
+  tailleOctets: number;
+  nbPages: number | null;
+  extractionOk: boolean;
+  extractionErr: string | null;
+  ajouteLe: string;
+  matiere: MatiereResume | null;
+  seanceId: string | null;
+  seanceDebut: string | null;
+}
+
+export interface Section {
+  id: string;
+  ordre: number;
+  granularite: string;
+  titre: string | null;
+  texte: string;
+  notes: string | null;
+  page: number | null;
+}
+
+export interface ResultatDepot {
+  document: Document;
+  dejaPresent: boolean;
+}
+
+export interface ResultatRecherche {
+  documentId: string;
+  titre: string;
+  extrait: string;
+  rang: number;
+}

@@ -1,6 +1,7 @@
 package org.example.studyos.agenda.web;
 
 import jakarta.validation.Valid;
+import org.example.studyos.agenda.service.ServiceAgenda;
 import org.example.studyos.agenda.service.ServiceQualification;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,9 +22,11 @@ import java.util.UUID;
 public class ControleurMatiere {
 
     private final ServiceQualification qualification;
+    private final ServiceAgenda agenda;
 
-    public ControleurMatiere(ServiceQualification qualification) {
+    public ControleurMatiere(ServiceQualification qualification, ServiceAgenda agenda) {
         this.qualification = qualification;
+        this.agenda = agenda;
     }
 
     @GetMapping
@@ -34,6 +37,16 @@ public class ControleurMatiere {
     @GetMapping("/a-qualifier")
     public List<MatiereDTO> aQualifier() {
         return qualification.listerAQualifier().stream().map(MatiereDTO::de).toList();
+    }
+
+    @GetMapping("/{id}")
+    public MatiereDTO parId(@PathVariable UUID id) {
+        return MatiereDTO.de(qualification.parId(id));
+    }
+
+    @GetMapping("/{id}/seances")
+    public List<SeanceDTO> seances(@PathVariable UUID id) {
+        return agenda.seancesDeMatiere(id).stream().map(SeanceDTO::de).toList();
     }
 
     @PutMapping("/{id}")

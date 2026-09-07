@@ -36,6 +36,10 @@ public class ServiceAgenda {
         return seances.findFirstByDebutAfterAndAnnuleeFalseOrderByDebutAsc(Instant.now());
     }
 
+    public List<Seance> seancesDeMatiere(java.util.UUID matiereId) {
+        return seances.findByMatiereIdAndAnnuleeFalseOrderByDebutAsc(matiereId);
+    }
+
     public List<ImportAgenda> historiqueImports() {
         return imports.findAllByOrderByExecuteLeDesc();
     }

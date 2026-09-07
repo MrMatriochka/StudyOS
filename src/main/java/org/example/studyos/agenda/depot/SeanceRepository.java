@@ -31,4 +31,8 @@ public interface SeanceRepository extends JpaRepository<Seance, UUID> {
 
     /** Fusion de matieres : reassigner les seances de la matiere absorbee. */
     List<Seance> findByMatiereId(UUID matiereId);
+
+    /** Page matiere : ses seances (non annulees), matiere chargee pour le DTO. */
+    @EntityGraph(attributePaths = "matiere")
+    List<Seance> findByMatiereIdAndAnnuleeFalseOrderByDebutAsc(UUID matiereId);
 }
