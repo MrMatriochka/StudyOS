@@ -25,6 +25,9 @@ spring:
 studyos:
   cors:
     allowed-origin: http://localhost:5173
+  documents:
+    # Racine de stockage des fichiers sur disque (jamais de BLOB en base).
+    racine: ${user.home}/StudyOS/documents
 
 server:
   port: 8080
