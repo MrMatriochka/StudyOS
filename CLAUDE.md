@@ -62,4 +62,17 @@ TanStack Query pour l'API, `useState` pour l'UI pure.
 ## Hors périmètre (ne pas préparer d'abstraction « au cas où »)
 Documents/OCR, notions/cartes/SM-2, fiches LLM, scores de maîtrise, PDF, auth/multi-user/déploiement.
 
-**Lot 1 fini quand** : je peux importer mon `.ics`, qualifier mes matières, voir ma semaine, savoir mon prochain cours.
+**Lot 1 fini quand** : je peux importer mon `.ics`, qualifier mes matières, voir ma semaine, savoir mon prochain cours. → **FAIT** (back testé unitaires + IT Testcontainers ; front Accueil/Semaine/Qualification).
+
+## État & suite
+- **Lot 1** : terminé. Front dans `frontend/` (Vite+React 19+TS+TanStack Query). Back Spring Boot.
+- **Lots 2 et 3** : brief dans `STUDYOS_BRIEF_LOT2_3.md`.
+  - Lot 2 = documents de cours (package `contenu`, Apache Tika, `V3__documents.sql`, recherche plein texte `tsvector french`, sections par format).
+  - Lot 3 = notions/cartes/révision espacée SM-2 (package `revision`, `V4__revision.sql`, dénormalisation état de planification assumée, score de maîtrise = couverture × rétention).
+
+## Finitions en attente (backlog, à intercaler quand utile)
+- `V2__alias_initiaux.sql` : pré-remplir les alias pour reconnaître ~25 matières dès l'import (fini les 51 `a_qualifier`). **Me demander les codes ambigus avant d'écrire** : AE, CDO, NPD, PRO, Pro CGI, M&E, SI, IOE, UXDM, IL Test, EAI, Cyril.
+- Éditeur de matière dans Qualification (couleur via color picker, coefficient, semestre, date examen).
+- Écran Semaine : gérer les séances `journee_entiere` (bandeau en haut de colonne).
+- `commun` : `@RestControllerAdvice` pour des erreurs JSON structurées.
+- Normaliseur : option retrait du type sans tiret (`BD TD/TP` → `bd`), faute `Semain`.
