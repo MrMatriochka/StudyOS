@@ -37,17 +37,19 @@ public class Matiere {
     @Column(name = "date_examen")
     private LocalDate dateExamen;
 
+    // Colonne 'a_qualifier' : nom de champ different pour eviter le piege
+    // JavaBeans (minuscule seule + majuscule) qui casse les query methods Spring Data.
     @Column(name = "a_qualifier", nullable = false)
-    private boolean aQualifier;
+    private boolean enAttenteQualification;
 
     protected Matiere() {
         // requis par JPA
     }
 
-    private Matiere(UUID id, String libelle, boolean aQualifier) {
+    private Matiere(UUID id, String libelle, boolean enAttenteQualification) {
         this.id = id;
         this.libelle = libelle;
-        this.aQualifier = aQualifier;
+        this.enAttenteQualification = enAttenteQualification;
     }
 
     /** Matiere creee a la main, deja qualifiee. */
@@ -65,7 +67,7 @@ public class Matiere {
     }
 
     public void marquerQualifiee() {
-        this.aQualifier = false;
+        this.enAttenteQualification = false;
     }
 
     public UUID getId() {
@@ -116,8 +118,8 @@ public class Matiere {
         this.dateExamen = dateExamen;
     }
 
-    public boolean isAQualifier() {
-        return aQualifier;
+    public boolean isEnAttenteQualification() {
+        return enAttenteQualification;
     }
 
     @Override

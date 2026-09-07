@@ -9,5 +9,5 @@ import java.util.UUID;
 public interface MatiereRepository extends JpaRepository<Matiere, UUID> {
 
     /** Matieres auto-creees a l'import, ecran de qualification. */
-    List<Matiere> findByAQualifierTrueOrderByLibelleAsc();
+    List<Matiere> findByEnAttenteQualificationTrueOrderByLibelleAsc();
 }
