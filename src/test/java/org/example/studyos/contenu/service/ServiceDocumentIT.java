@@ -20,6 +20,9 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.UUID;
@@ -40,9 +43,20 @@ class ServiceDocumentIT {
     @ServiceConnection
     static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:16");
 
+    // Dossier de stockage jetable, cree une fois pour ce test.
+    static final Path DOSSIER_DOCS = creerDossierTemporaire();
+
     @DynamicPropertySource
-    static void racineDocuments(DynamicPropertyRegistry registry, @org.junit.jupiter.api.io.TempDir Path dossier) {
-        registry.add("studyos.documents.racine", dossier::toString);
+    static void racineDocuments(DynamicPropertyRegistry registry) {
+        registry.add("studyos.documents.racine", DOSSIER_DOCS::toString);
+    }
+
+    private static Path creerDossierTemporaire() {
+        try {
+            return Files.createTempDirectory("studyos-docs-it");
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
     }
 
     @Autowired
