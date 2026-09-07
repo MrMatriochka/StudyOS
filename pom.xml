@@ -20,7 +20,32 @@
     <properties>
         <java.version>21</java.version>
         <biweekly.version>0.6.8</biweekly.version>
+        <!-- Surcharge du BOM Spring Boot : le client docker-java de la 1.21.0
+             ne sait pas dialoguer avec Docker Engine 29 (HTTP 400 a l'init). -->
+        <testcontainers.version>1.21.4</testcontainers.version>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- Force un client docker-java recent, compatible Docker Engine 29
+                 (celui embarque par Testcontainers 1.21.x, 3.4.2, renvoie HTTP 400). -->
+            <dependency>
+                <groupId>com.github.docker-java</groupId>
+                <artifactId>docker-java-api</artifactId>
+                <version>3.7.1</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.docker-java</groupId>
+                <artifactId>docker-java-transport</artifactId>
+                <version>3.7.1</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.docker-java</groupId>
+                <artifactId>docker-java-transport-zerodep</artifactId>
+                <version>3.7.1</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <dependency>
