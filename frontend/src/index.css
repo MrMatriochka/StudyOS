@@ -1,0 +1,101 @@
+:root {
+  --fond: #f7f7f8;
+  --carte: #ffffff;
+  --bord: #e2e2e5;
+  --texte: #1c1c1e;
+  --attenue: #6b6b70;
+  --accent: #3b5bdb;
+  --accent-doux: #edf0fd;
+  font-family: system-ui, -apple-system, sans-serif;
+  color: var(--texte);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--fond);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.entete {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  padding: 0.75rem 1.5rem;
+  background: var(--carte);
+  border-bottom: 1px solid var(--bord);
+}
+
+.entete .marque {
+  font-weight: 700;
+}
+
+.entete nav {
+  display: flex;
+  gap: 1rem;
+}
+
+.entete nav a {
+  padding: 0.35rem 0.6rem;
+  border-radius: 6px;
+  color: var(--attenue);
+}
+
+.entete nav a.actif {
+  background: var(--accent-doux);
+  color: var(--accent);
+}
+
+.contenu {
+  max-width: 900px;
+  margin: 1.5rem auto;
+  padding: 0 1rem;
+}
+
+.carte {
+  background: var(--carte);
+  border: 1px solid var(--bord);
+  border-radius: 10px;
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+button {
+  font: inherit;
+  padding: 0.35rem 0.7rem;
+  border: 1px solid var(--bord);
+  border-radius: 6px;
+  background: var(--carte);
+  cursor: pointer;
+}
+
+button.primaire {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+input,
+select {
+  font: inherit;
+  padding: 0.35rem 0.5rem;
+  border: 1px solid var(--bord);
+  border-radius: 6px;
+  background: var(--carte);
+}
+
+.attenue {
+  color: var(--attenue);
+}
