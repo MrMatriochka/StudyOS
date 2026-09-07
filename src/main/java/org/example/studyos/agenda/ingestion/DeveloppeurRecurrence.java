@@ -3,6 +3,7 @@ package org.example.studyos.agenda.ingestion;
 import biweekly.ICalendar;
 import biweekly.component.VEvent;
 import biweekly.util.com.google.ical.compat.javautil.DateIterator;
+import org.springframework.stereotype.Component;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ import java.util.TimeZone;
  *
  * Fonction pure vis-a-vis de la base : aucune persistance ici.
  */
+@Component
 public class DeveloppeurRecurrence {
 
     // Fuseau par defaut pour les dates flottantes ; les DTSTART en TZID/UTC
