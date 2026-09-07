@@ -1,6 +1,7 @@
 package org.example.studyos.agenda.ingestion;
 
-import java.text.Normalizer;
+import org.example.studyos.commun.Textes;
+
 import java.util.Locale;
 
 /**
@@ -27,17 +28,11 @@ public final class NormalisateurLibelle {
         if (brut == null) {
             return "";
         }
-        String s = sansAccents(brut).toLowerCase(Locale.ROOT);
+        String s = Textes.sansAccents(brut).toLowerCase(Locale.ROOT);
         s = s.replaceAll(SUFFIXE_TYPE, " ");   // 1. retirer le suffixe de type
         s = s.replaceAll(MOTS_NATURE, " ");    // 2. retirer les mots de nature
         s = s.replace('-', ' ');               // 3. tirets residuels -> espace
         s = s.replaceAll("\\s+", " ").trim();  //    compresser les espaces, trim
         return s;
-    }
-
-    /** NFD puis suppression des diacritiques (é -> e, à -> a...). */
-    private static String sansAccents(String texte) {
-        String decompose = Normalizer.normalize(texte, Normalizer.Form.NFD);
-        return decompose.replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
     }
 }
