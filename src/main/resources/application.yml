@@ -21,6 +21,12 @@ spring:
     enabled: true
     locations: classpath:db/migration
 
+  servlet:
+    multipart:
+      # Defaut Spring = 1 Mo/fichier : trop bas pour des slides de cours.
+      max-file-size: 50MB
+      max-request-size: 50MB
+
 # CORS : application locale mono-utilisateur, seul le front Vite est autorise.
 studyos:
   cors:

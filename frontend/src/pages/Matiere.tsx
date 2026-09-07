@@ -135,7 +135,11 @@ function ZoneDepot({ matiereId, seances }: { matiereId: string; seances: Seance[
               : `Ajouté, mais extraction impossible : ${deposer.data.document.extractionErr}`}
         </p>
       )}
-      {deposer.isError && <p style={{ color: 'crimson' }}>Échec du dépôt.</p>}
+      {deposer.isError && (
+        <p style={{ color: 'crimson' }}>
+          Échec du dépôt : {(deposer.error as Error)?.message ?? 'erreur inconnue'}
+        </p>
+      )}
     </section>
   );
 }
