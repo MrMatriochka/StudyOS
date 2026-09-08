@@ -82,6 +82,11 @@ public class Carte {
         this.reponse = reponse;
     }
 
+    /** Etat de planification courant, a passer au planificateur (SM-2). */
+    public EtatPlanification planificationCourante() {
+        return new EtatPlanification(repetitions, intervalleJours, facilite, prochaineEcheance);
+    }
+
     public void changerStatut(StatutCarte statut) {
         this.statut = statut;
     }

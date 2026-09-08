@@ -12,6 +12,9 @@ public interface CarteRepository extends JpaRepository<Carte, UUID> {
 
     List<Carte> findByNotionIdOrderByCreeeLeAsc(UUID notionId);
 
+    /** Marqueur « trou de revision » cote front : notion sans carte. */
+    long countByNotionId(UUID notionId);
+
     // --- Session de revision : cartes dues (echeance <= aujourd'hui) ---
     List<Carte> findByStatutAndProchaineEcheanceLessThanEqualOrderByProchaineEcheanceAsc(
             StatutCarte statut, LocalDate aujourdhui);
