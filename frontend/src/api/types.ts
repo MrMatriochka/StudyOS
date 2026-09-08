@@ -94,3 +94,44 @@ export interface ResultatRecherche {
   extrait: string;
   rang: number;
 }
+
+export interface Notion {
+  id: string;
+  matiereId: string;
+  intitule: string;
+  description: string | null;
+  creeeLe: string;
+  nbCartes: number;
+}
+
+export interface Carte {
+  id: string;
+  notionId: string;
+  question: string;
+  reponse: string;
+  origine: string;
+  statut: string;
+  repetitions: number;
+  intervalleJours: number;
+  facilite: number;
+  derniereRevision: string | null;
+  prochaineEcheance: string | null;
+  creeeLe: string;
+}
+
+export interface SessionCarte {
+  id: string;
+  question: string;
+  reponse: string;
+  prevuEncore: number;
+  prevuDifficile: number;
+  prevuBien: number;
+  prevuFacile: number;
+}
+
+export interface ScoreMaitrise {
+  evaluee: boolean;
+  maitrise: number | null;
+  couverture: number;
+  retention: number;
+}

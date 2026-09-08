@@ -1,15 +1,19 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { api } from './client';
 import type {
+  Carte,
   Document,
   Echeance,
   EtatEcheance,
   Matiere,
   MajMatiere,
+  Notion,
   ResultatDepot,
   ResultatImport,
   ResultatRecherche,
+  ScoreMaitrise,
   Seance,
+  SessionCarte,
   Section,
 } from './types';
 
@@ -181,5 +185,89 @@ export function useRecherche(q: string) {
     queryKey: ['recherche', q],
     queryFn: () => api.get<ResultatRecherche[]>(`/api/recherche?q=${encodeURIComponent(q)}`),
     enabled: q.trim().length > 0,
+  });
+}
+
+// --- Notions & cartes ---
+
+export function useNotions(matiereId: string) {
+  return useQuery({
+    queryKey: ['notions', matiereId],
+    queryFn: () => api.get<Notion[]>(`/api/matieres/${matiereId}/notions`),
+  });
+}
+
+export function useCreerNotion(matiereId: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (intitule: string) =>
+      api.post<Notion>('/api/notions', { matiereId, intitule }),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['notions', matiereId] }),
+  });
+}
+
+export function useSupprimerNotion(matiereId: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (id: string) => api.supprimer<void>(`/api/notions/${id}`),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['notions', matiereId] }),
+  });
+}
+
+export function useCartes(notionId: string, actif: boolean) {
+  return useQuery({
+    queryKey: ['cartes', notionId],
+    queryFn: () => api.get<Carte[]>(`/api/notions/${notionId}/cartes`),
+    enabled: actif,
+  });
+}
+
+export function useCreerCarte(matiereId: string, notionId: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ question, reponse }: { question: string; reponse: string }) =>
+      api.post<Carte>('/api/cartes', { notionId, question, reponse }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['cartes', notionId] });
+      qc.invalidateQueries({ queryKey: ['notions', matiereId] }); // met a jour nbCartes
+    },
+  });
+}
+
+export function useSupprimerCarte(matiereId: string, notionId: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (id: string) => api.supprimer<void>(`/api/cartes/${id}`),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['cartes', notionId] });
+      qc.invalidateQueries({ queryKey: ['notions', matiereId] });
+    },
+  });
+}
+
+// --- Revision & maitrise ---
+
+export function useSession(matiereId?: string) {
+  const suffixe = matiereId ? `?matiereId=${matiereId}` : '';
+  return useQuery({
+    queryKey: ['session', matiereId ?? 'toutes'],
+    queryFn: () => api.get<SessionCarte[]>(`/api/revisions/session${suffixe}`),
+    staleTime: Infinity, // fige la file pendant la session
+  });
+}
+
+export function useEnregistrerRevision() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ carteId, qualite, dureeMs }: { carteId: string; qualite: number; dureeMs?: number }) =>
+      api.post<Carte>('/api/revisions', { carteId, qualite, dureeMs }),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['maitrise'] }),
+  });
+}
+
+export function useMaitrise(matiereId: string) {
+  return useQuery({
+    queryKey: ['maitrise', matiereId],
+    queryFn: () => api.get<ScoreMaitrise>(`/api/matieres/${matiereId}/maitrise`),
   });
 }

@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
-import { useEcheances, useProchaineSeance, useSeances } from '../api/hooks';
+import { Link } from 'react-router-dom';
+import { useEcheances, useProchaineSeance, useSeances, useSession } from '../api/hooks';
 import type { Echeance, Seance } from '../api/types';
 import { heure, jour, jourEtHeure, tempsRestant } from '../format';
 
@@ -23,11 +24,23 @@ export function Accueil() {
   const prochaine = useProchaineSeance();
   const duJour = useSeances(debutJour, finJour);
   const echeances = useEcheances(maintenant);
+  const session = useSession();
 
   const echeances14j = (echeances.data ?? []).filter((e) => e.echeance <= dans14j);
+  const aReviser = session.data?.length ?? 0;
 
   return (
     <div>
+      {aReviser > 0 && (
+        <Link to="/revision" style={{ display: 'block' }}>
+          <section className="carte" style={{ background: 'var(--accent)', color: '#fff', borderColor: 'var(--accent)' }}>
+            <strong style={{ fontSize: '1.2rem' }}>
+              {aReviser} carte{aReviser > 1 ? 's' : ''} à réviser aujourd'hui →
+            </strong>
+          </section>
+        </Link>
+      )}
+
       <CarteProchainCours seance={prochaine.data} chargement={prochaine.isLoading} />
 
       <section className="carte">

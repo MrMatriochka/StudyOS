@@ -9,6 +9,7 @@ import { Qualification } from './pages/Qualification';
 import { Matieres } from './pages/Matieres';
 import { Matiere } from './pages/Matiere';
 import { Recherche } from './pages/Recherche';
+import { Revision } from './pages/Revision';
 import './index.css';
 
 const queryClient = new QueryClient();
@@ -25,6 +26,7 @@ const router = createBrowserRouter([
       { path: 'matiere/:id', element: <Matiere /> },
       { path: 'qualification', element: <Qualification /> },
       { path: 'recherche', element: <Recherche /> },
+      { path: 'revision', element: <Revision /> },
     ],
   },
 ]);

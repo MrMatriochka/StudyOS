@@ -24,6 +24,9 @@ export function App() {
           <NavLink to="/matieres" className={({ isActive }) => (isActive ? 'actif' : '')}>
             Matières
           </NavLink>
+          <NavLink to="/revision" className={({ isActive }) => (isActive ? 'actif' : '')}>
+            Réviser
+          </NavLink>
           <NavLink to="/qualification" className={({ isActive }) => (isActive ? 'actif' : '')}>
             Qualification
           </NavLink>
